@@ -1,3 +1,3 @@
 ![Team](team-logo-black-big.png)
-# rollout-configuration-team
+# Rollout Configuration Team
 Repository to host the Rollout Configuration Team internal tools
