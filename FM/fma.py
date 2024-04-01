@@ -12,6 +12,9 @@ from tkinter import filedialog
 import os
 import re
 from datetime import date
+import platform
+import subprocess
+
 
 APP_TITLE = 'v3.2 Functionality Matrix Generator'
 
@@ -192,6 +195,11 @@ class FunctionalityMatrix:
             os.remove(self.csv_file_edited)
             # open the destination folder
             logger.info('Open folder where EXCEL FILE is...')
+            current_os = platform.system()
+            if current_os == 'Windows':
+                os.startfile(path)
+            elif current_os == 'Linux':
+                subprocess.run(['xdg-open', path])
             #os.startfile(path)
             logger.info(f'Path: {path}')
             logger.info(f'{name}')
