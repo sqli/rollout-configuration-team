@@ -204,6 +204,8 @@ class FunctionalityMatrix:
             logger.info(f'Path: {path}')
             logger.info(f'{name}')
             logger.info('Excel File created sucessfully!')
+         
+
             return 1
         except:
             logger.error(f'Error saving EXCEL file. Probably file is open. Close and Run again. EXCEPTION: {ValueError}')
@@ -1030,6 +1032,7 @@ def click_run():
 
 
 
+
 def check_run_avaliable():
     try:
         condition = bool(filename_csv)  # and filename_fm_excel)  # strings can be checked as bool if they are empty or not.
@@ -1051,6 +1054,12 @@ def click_data_csv():
 
     check_run_avaliable()
     logger.info(f'CSV File is: {filename_csv}')
+
+def run_instantly():
+    global filename_csv
+    filename_csv="securemedias.csv"
+    file_path = os.getcwd()
+    click_run()
 
 
 def init_GUI():
@@ -1080,8 +1089,8 @@ def init_GUI():
    #  today = f'{date.today()}_NC2_Functionality_Matrix.xlsx'
    #  edit_name_out.insert(0, today)
 
-    run_button = tk.Button(root, padx=30, anchor='w', text='Run...',  command=click_run, state=tk.DISABLED)
-    run_button.grid(row=6, column=0)
+    run_button = tk.Button(root, padx=30, anchor='w', text='Run',  command=click_run, state=tk.DISABLED)
+    run_button.grid(row=6, column=0, pady=10)
     run_label = tk.Label(root, text='')
     run_label.grid(row=6, column=1)
 
