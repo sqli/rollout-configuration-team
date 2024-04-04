@@ -1055,12 +1055,11 @@ def click_data_csv():
     check_run_avaliable()
     logger.info(f'CSV File is: {filename_csv}')
 
-def run_instantly():
+def run_script():
+    path= os.getcwd()
     global filename_csv
-    filename_csv="securemedias.csv"
-    file_path = os.getcwd()
+    filename_csv=os.path.join(path,"securemedias.csv") 
     click_run()
-
 
 def init_GUI():
     global run_button
@@ -1098,5 +1097,9 @@ def init_GUI():
 
 
 if __name__ == "__main__":
-    init_GUI()
+    filename="securemedias.csv"
+    if os.path.exists(filename) :
+        run_script()
+    else:
+        init_GUI()
 
