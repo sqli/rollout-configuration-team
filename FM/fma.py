@@ -69,7 +69,7 @@ TITLE_ITEMS_SHEET_1_SECTION_1 = ['Store ID', 'Shipping Countries', 'Channels', '
                                  'Recaptcha Disable for', 'Display link for boutique checkout', 'CX Replay for app id for iOS',
                                  'CX Replay for app id for android', 'Enabled Tracking SDK', 'Enabled Adobe SDK', 'Adobe SDK ID',
                                  'ECAPI Cart Enabled', 'Fast BTG Config', 'ECAPI Cart Split Config', 'Machine Registration Step Disabled On',
-                                 'Automatic Sitemap Enabled', 'contactWhatsappConfigured', 'contactwhatsappDeepLink', 'Consent Management Service Enabled']
+                                 'Automatic Sitemap Enabled', 'contactWhatsappConfigured', 'contactwhatsappDeepLink', 'Consent Management Service Enabled','Data Protection Configuration']
 
 TITLE_ITEMS_SHEET_1_SECTION_2 = ['Store ID', 'Channels', 'Enable Privacy Notice On Registration', 'Enable Registration Contact Preferences Grouped Opt-in Selection',
                                  'Enable Registration Post Mail Authorization',
