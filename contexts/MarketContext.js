@@ -8,11 +8,21 @@ const fmData = {
       "Store ID": "NesStore_AR_AR_B2B",
       "Shipping Countries": "ar",
       "Web Call Back": 'TRUE',
+      "Activation Code": 'TRUE',
+      'Fraud Management': 'TRUE',
+      'Enabled Tracking SDK':'GLASSBOX',
+      'Mini Cart Editable': 'TRUE',
+      'Guest Checkout Account Creation':'OPTIONAL'
     },
     B2C: {
       "Store ID": "NesStore_AR_AR",
       "Shipping Countries": "ar",
       "Web Call Back": 'FALSE',
+      "Activation Code": 'TRUE',
+      'Fraud Management': 'TRUE',
+      'Enabled Tracking SDK':'GLASSBOX',
+      'Mini Cart Editable': 'TRUE',
+      'Guest Checkout Account Creation':'OPTIONAL'
     },
   },
   "Australia": {
@@ -20,11 +30,21 @@ const fmData = {
       "Store ID": "NesStore_AU_AU_B2B",
       "Shipping Countries": "au",
       "Web Call Back": 'TRUE',
+      "Activation Code": 'TRUE',
+      'Fraud Management': 'TRUE',
+      'Enabled Tracking SDK':'GLASSBOX',
+      'Mini Cart Editable': 'TRUE',
+      'Guest Checkout Account Creation':'OPTIONAL'
     },
     B2C: {
       "Store ID": "NesStore_AU_AU",
       "Shipping Countries": "au",
       "Web Call Back": 'FALSE',
+      "Activation Code": 'TRUE',
+      'Fraud Management': 'TRUE',
+      'Enabled Tracking SDK':'GLASSBOX',
+      'Mini Cart Editable': 'TRUE',
+      'Guest Checkout Account Creation':'OPTIONAL'
     }
   },
   "Austria": {
@@ -32,11 +52,21 @@ const fmData = {
       "Store ID": "NesStore_AT_AT_B2B",
       "Shipping Countries": "at",
       "Web Call Back": 'TRUE',
+      "Activation Code": 'TRUE',
+      'Fraud Management': 'TRUE',
+      'Enabled Tracking SDK':'GLASSBOX',
+      'Mini Cart Editable': 'TRUE',
+      'Guest Checkout Account Creation':'OPTIONAL'
     },
     B2C: {
       "Store ID": "NesStore_AT_AT",
       "Shipping Countries": "at",
       "Web Call Back": 'FALSE',
+      "Activation Code": 'TRUE',
+      'Fraud Management': 'TRUE',
+      'Enabled Tracking SDK':'GLASSBOX',
+      'Mini Cart Editable': 'TRUE',
+      'Guest Checkout Account Creation':'OPTIONAL'
     }
   }
 };
