@@ -24,10 +24,12 @@ SHEET_6_TITLE = 'Payments SDK'
 
 TITLE_SHEET_1_SECTION_1 = '### NesStore with config ###'
 TITLE_SHEET_1_SECTION_2 = '### Contact Preferences Management ###'
-TITLE_SHEET_1_SECTION_3 = '### Alert Management and Standing Orders ###'
-TITLE_SHEET_1_SECTION_4 = '### EasyOrder linked with Subscription ###'
+TITLE_SHEET_1_SECTION_3 = '### DoubleOptin With GracePeriod ###'
+TITLE_SHEET_1_SECTION_4 = '### Account suspension ###'
 TITLE_SHEET_1_SECTION_5 = '### Contact Address Form Definition ###'
 TITLE_SHEET_1_SECTION_6 = '### Contact Form Definition ###'
+TITLE_SHEET_1_SECTION_7 = '### EasyOrder linked with Subscription ###'
+TITLE_SHEET_1_SECTION_8 = '### Alert Management and Standing Orders ###'
 TITLE_SHEET_2_SECTION_1 = '### NC2 Shipping Methods ###'
 TITLE_SHEET_2_SECTION_2 = '### NC2 Payment Methods ###'
 TITLE_SHEET_2_SECTION_3 = '### NC2 Payment Card Types ###'
@@ -69,7 +71,8 @@ TITLE_ITEMS_SHEET_1_SECTION_1 = ['Store ID', 'Shipping Countries', 'Channels', '
                                  'Recaptcha Disable for', 'Display link for boutique checkout', 'CX Replay for app id for iOS',
                                  'CX Replay for app id for android', 'Enabled Tracking SDK', 'Enabled Adobe SDK', 'Adobe SDK ID',
                                  'ECAPI Cart Enabled', 'Fast BTG Config', 'ECAPI Cart Split Config', 'Machine Registration Step Disabled On',
-                                 'Automatic Sitemap Enabled', 'contactWhatsappConfigured', 'contactwhatsappDeepLink', 'Consent Management Service Enabled','Data Protection Configuration']
+                                 'Automatic Sitemap Enabled', 'contactWhatsappConfigured', 'contactwhatsappDeepLink', 'Consent Management Service Enabled','Data Protection Configuration',
+                                 'Address Validation Provider', 'Address Autocomplete Provider', 'Address Map Api', 'Split Terms And Privacy On Flows']
 
 TITLE_ITEMS_SHEET_1_SECTION_2 = ['Store ID', 'Channels', 'Enable Privacy Notice On Registration', 'Enable Registration Contact Preferences Grouped Opt-in Selection',
                                  'Enable Registration Post Mail Authorization',
@@ -85,12 +88,14 @@ TITLE_ITEMS_SHEET_1_SECTION_2 = ['Store ID', 'Channels', 'Enable Privacy Notice 
                                  'Enable My Account Messaging Authorization', 'Enable My Account Use My Data For Commercial Offers Authorization',
                                  'Enable Data Profiling activities on My Account', 'Enable My Account Market Research And Satisfaction Research Authorization',
                                  'Enable Market Research on My Account', 'Enable My Account Email Authorization', 'Online Invoice Configuration']
-TITLE_ITEMS_SHEET_1_SECTION_3 = ['Channel ID', 'Descaling Alert', 'Reorder Alert', 'Standing Orders FrontEnds',
-                                 'Credit Note Info']
-TITLE_ITEMS_SHEET_1_SECTION_4 = ['Store ID', 'EasyOrder linked with Subscription']
+TITLE_ITEMS_SHEET_1_SECTION_3 = ['Double Optin Config code', 'double Optin Activated', 'grace Period Minutes']
+TITLE_ITEMS_SHEET_1_SECTION_4 = ['Acccount suspension code', 'Account suspension Enabled']
 TITLE_ITEMS_SHEET_1_SECTION_5 = ['Store ID', 'Contact Address']
 TITLE_ITEMS_SHEET_1_SECTION_6 = ['Contact Form ID', 'Title', 'First Name', 'Additional Name', 'Second Name', 'email',
                                  'First Phone', 'Language']
+TITLE_ITEMS_SHEET_1_SECTION_7 = ['Store ID', 'EasyOrder linked with Subscription']
+TITLE_ITEMS_SHEET_1_SECTION_8 = ['Channel ID', 'Descaling Alert', 'Reorder Alert', 'Standing Orders FrontEnds',
+                                 'Credit Note Info']
 TITLE_ITEMS_SHEET_2_SECTION_1 = ['', 'Channels', 'NesOA ID', 'Name', 'Active', 'Authorized For Capsule',
                                  'Authorized For Machine', 'Authorized For Accessory', 'Boutique', 'Pick Up Point',
                                  'Nespresso Your Time', 'Active Recycling', 'Gift Service Compatible',
@@ -344,8 +349,35 @@ class FunctionalityMatrix:
         except ValueError:
             logger.error(f'"Error Sheet 1 Section 2 EXCEPTION: {ValueError}error')
             return -1
-
-    def sheet_1_section_3_NesEntityChannel(self):
+    def sheet_1_section_3_DoubleOptinConfig(self):
+        try:
+            with open(self.csv_file_edited, encoding='utf8') as file_name:
+                self.csv_reader=csv.reader(file_name, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                for line in self.csv_reader:
+                    if 'insert_update DoubleOptinConfig'.lower() in line[0].lower():
+                        self.row_number_start = self.wb[SHEET_1_TITLE].max_row + 2
+                        self.util_format_title_section(SHEET_1_TITLE, TITLE_SHEET_1_SECTION_3, (self.row_number_start, 1))
+                        NesStoreElementNum = 0
+                        logger.debug('insert_update DoubleOptinConfig')
+                        line = TITLE_ITEMS_SHEET_1_SECTION_3
+                        self.util_line_write_from_csv_to_excel_transpose(SHEET_1_TITLE, (self.row_number_start + 1, 1),NesStoreElementNum, 0, line)
+                        NesStoreElementNum += 1
+                        line = next(self.csv_reader)
+                        while line[0] == '' and line[1] != '':
+                            self.util_line_write_from_csv_to_excel_transpose(SHEET_1_TITLE, (self.row_number_start + 1, 1),NesStoreElementNum, 1, line)
+                            NesStoreElementNum +=1
+                            try:
+                                line = next(self.csv_reader)
+                            except:
+                                break
+                        logger.info(f'Sheet 1 Section 3 Row last index={self.wb[SHEET_1_TITLE].max_row}')
+                        logger.info(f'CSV file number: {self.csv_reader.line_num}')
+                        return 1    
+            return 1
+        except ValueError:
+            logger.error(f'"Error Sheet 1 Section 3 EXCEPTION: {ValueError}')
+            return -1
+    def sheet_1_section_8_NesEntityChannel(self):
         # insert_update NesEntityChannel
         try:
             with open(self.csv_file_edited, encoding='utf8') as file_name:
@@ -355,11 +387,11 @@ class FunctionalityMatrix:
                     # I 'lower()' the string, so any change in the future of capital letters doesn't affect.
                     if 'insert_update nesentitychannel' in line[0].lower():
                         self.row_number_start = self.wb[SHEET_1_TITLE].max_row + 2
-                        self.util_format_title_section(SHEET_1_TITLE, TITLE_SHEET_1_SECTION_3, (self.row_number_start, 1))
+                        self.util_format_title_section(SHEET_1_TITLE, TITLE_SHEET_1_SECTION_8, (self.row_number_start, 1))
                         NesStoreElementNum = 0
 
                         logger.debug('insert_update NesEntityChannel')
-                        line = TITLE_ITEMS_SHEET_1_SECTION_3
+                        line = TITLE_ITEMS_SHEET_1_SECTION_8
                         self.util_line_write_from_csv_to_excel_transpose(SHEET_1_TITLE, (self.row_number_start + 1, 1),
                                                                          NesStoreElementNum, 0, line)
                         NesStoreElementNum += 1
@@ -373,17 +405,46 @@ class FunctionalityMatrix:
 
                             line = next(self.csv_reader)
 
-                        logger.info(f'Sheet 1 Section 3 Row last index={self.wb[SHEET_1_TITLE].max_row}')
+                        logger.info(f'Sheet 1 Section 8 Row last index={self.wb[SHEET_1_TITLE].max_row}')
                         logger.info(f'CSV file number: {self.csv_reader.line_num}')
                         return 1
             return 1
         except ValueError:
-            logger.error(f'"Error Sheet 1 Section 3 EXCEPTION: {ValueError}')
+            logger.error(f'"Error Sheet 1 Section 8 EXCEPTION: {ValueError}')
             return -1
 
         pass
 
-    def sheet_1_section_4_Subscription(self):
+    def sheet_1_section_4_accountSuspension(self):
+        try:
+            with open(self.csv_file_edited, encoding='utf8') as file_name:
+                self.csv_reader=csv.reader(file_name, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                for line in self.csv_reader:
+                    if 'insert_update AccountSuspension'.lower() in line[0].lower():
+                        self.row_number_start = self.wb[SHEET_1_TITLE].max_row + 2
+                        self.util_format_title_section(SHEET_1_TITLE, TITLE_SHEET_1_SECTION_4, (self.row_number_start, 1))
+                        NesStoreElementNum = 0
+                        logger.debug('insert_update accountSuspension')
+                        line = TITLE_ITEMS_SHEET_1_SECTION_4
+                        self.util_line_write_from_csv_to_excel_transpose(SHEET_1_TITLE, (self.row_number_start + 1, 1),NesStoreElementNum, 0, line)
+                        NesStoreElementNum += 1
+                        line = next(self.csv_reader)
+                        while line[0] == '' and line[1] != '':
+                            self.util_line_write_from_csv_to_excel_transpose(SHEET_1_TITLE, (self.row_number_start + 1, 1),NesStoreElementNum, 1, line)
+                            NesStoreElementNum +=1
+                            try:
+                                line = next(self.csv_reader)
+                            except:
+                                break
+                        logger.info(f'Sheet 1 Section 4 Row last index={self.wb[SHEET_1_TITLE].max_row}')
+                        logger.info(f'CSV file number: {self.csv_reader.line_num}')
+                        return 1    
+            return 1
+        except ValueError:
+            logger.error(f'"Error Sheet 1 Section 4 EXCEPTION: {ValueError}')
+            return -1
+
+    def sheet_1_section_7_Subscription(self):
         # insert_update NesEntityChannel
         try:
             with open(self.csv_file_edited, encoding='utf8') as file_name:
@@ -393,12 +454,12 @@ class FunctionalityMatrix:
                     # I 'lower()' the string, so any change in the future of capital letters doesn't affect.
                     if 'insert_update subscriptionrecurringorderconfig' in line[0].lower():
                         self.row_number_start = self.wb[SHEET_1_TITLE].max_row + 2
-                        self.util_format_title_section(SHEET_1_TITLE, TITLE_SHEET_1_SECTION_4,
+                        self.util_format_title_section(SHEET_1_TITLE, TITLE_SHEET_1_SECTION_7,
                                                        (self.row_number_start, 1))
                         NesStoreElementNum = 0
 
                         logger.debug('insert_update subscriptionrecurringorderconfig')
-                        line = TITLE_ITEMS_SHEET_1_SECTION_4
+                        line = TITLE_ITEMS_SHEET_1_SECTION_7
                         self.util_line_write_from_csv_to_excel_transpose(SHEET_1_TITLE, (self.row_number_start + 1, 1),
                                                                          NesStoreElementNum, 0, line)
                         NesStoreElementNum += 1
@@ -411,12 +472,12 @@ class FunctionalityMatrix:
 
                             line = next(self.csv_reader)
 
-                        logger.info(f'Sheet 1 Section 4 Row last index={self.wb[SHEET_1_TITLE].max_row}')
+                        logger.info(f'Sheet 1 Section 7 Row last index={self.wb[SHEET_1_TITLE].max_row}')
                         logger.info(f'CSV file number: {self.csv_reader.line_num}')
                         return 1
             return 1
         except ValueError:
-            logger.error(f'"Error Sheet 1 Section 4 EXCEPTION: {ValueError}')
+            logger.error(f'"Error Sheet 1 Section 7 EXCEPTION: {ValueError}')
             return -1
 
         pass
@@ -501,6 +562,10 @@ class FunctionalityMatrix:
             return -1
 
         pass
+
+    
+
+    
 
     def sheet_2_section_1_ShippingMethod(self):
 
@@ -988,10 +1053,12 @@ def click_run():
     # SHEET 1
     fm.sheet_1_section_1_nesStore()
     fm.sheet_1_section_2_nesStore()
-    fm.sheet_1_section_3_NesEntityChannel()
-    fm.sheet_1_section_4_Subscription()
+    fm.sheet_1_section_3_DoubleOptinConfig()
+    fm.sheet_1_section_4_accountSuspension()
     fm.sheet_1_section_5_contactAddressFormDefinition()
     fm.sheet_1_section_6_contactFormDefinition()
+    fm.sheet_1_section_7_Subscription()
+    fm.sheet_1_section_8_NesEntityChannel()
     # SHEET 2
     fm.sheet_2_section_1_ShippingMethod()
     fm.sheet_2_section_2_PatymentMethod() 
